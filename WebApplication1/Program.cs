@@ -1,3 +1,4 @@
+using Amazon.Runtime;
 using Amazon.SQS;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication1.Config;
@@ -11,7 +12,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.Configure<ServiceConfiguration>(builder.Configuration);  
+var configuration = builder.Configuration;
+builder.Services.Configure<ServiceConfiguration>(configuration);
+// var awsOptions = configuration.GetAWSOptions();
+// awsOptions.Credentials = new EnvironmentVariablesAWSCredentials();
+// builder.Services.AddDefaultAWSOptions(awsOptions);  
 builder.Services.AddAWSService<IAmazonSQS>();  
 builder.Services.AddTransient<IAWSSQSService, AWSSQSService>();  
 builder.Services.AddTransient<IAWSSQSHelper, AWSSQSHelper>();  
